@@ -1,0 +1,164 @@
+Questions et réponses!
+
+1. Confiner l'exercice dans un dossier exercice_bash et y créer les dossiers data/ scripts/ programs/ analyses/ taxons/
+
+
+2. Recuperer si ce n'est déjà fait les séquences des gènes ef-tu et dnaA dans le dossier exercice_bash/
+en effectuant la commande
+
+git clone https://github.com/soda460/aac_courses 
+
+
+3. Copier tous les fichiers .fasta du dossier aac_courses/ dans le dossier data/
+
+
+4. Renommer les deux fichiers avec des noms plus conviviaux : ef-tu.fasta et dnaA.fasta (utiliser l'auto-complétion des commandes!)
+
+
+5. Utiliser grep, un pipe et une commande UNIX mystère pour illustrer en 10 lignes ou moins que le fichiers ef-tu.fasta contient des séquences de protéines. Rediriger le fihier dans data/q5.txt
+
+
+6. Compter le nombre de séquences présentes dans chaque fichier. Rediriger les deux résultats l'un à la suite de l'autre dans q6.txt 
+
+
+7. Avec grep et les options (-iPzo), extraire les séquences du gène ef-tu appartenant au genre Yersinia (en conservant les entêtes) et rediriger dans q7.txt
+
+Normalement, grep permet de chercher des expresssions contenu sur une seule ligne. La combinaison des options Pzo permet d'utiliser les expressions régulières de Perl sur plusieures lignes. 
+
+
+8. Utiliser grep pour examiner comment la base de données SWISSPROT a choisi de structurer l’entête de ces fichiers FASTA.
+
+
+9. Avec grep et sed, (grep ... | sed ...), construire une liste complète des organismes (genre, espèce, numero OX=) pour lesquels on dispose des séquences des gènes ef-tu et dnaA. Trier cette liste selon en ordre croissant (ordre informatique) de numero OX. Rediriger les résultats dans taxons/eftu_taxons_sorted et taxons/dnaA_taxons.sorted
+
+On souhaite avoir le format suivant sur chaque ligne :
+(i) l'identifiant swissprot complet, (ii) une tabulation
+(iii) le genre bacterien et l'espèce séparés par un espace normal
+(iv) une tabulation, puis l'identifiant OX
+
+comme ceci :
+
+sp|A1KGG5|EFTU_MYCBP	Mycobacterium bovis	OX=410289
+sp|Q1JMR3|EFTU_STRPC	Streptococcus pyogenes	OX=370551
+sp|A5IM81|EFTU_THEP1	Thermotoga petrophila	OX=390874
+
+
+10. # Pour obtenir une liste des taxons communs, faire une jointure entre les deux fichiers en utilisant l'identifiant de taxons comme critère de jointure. Que pouvez-vous conclure par rapport aux versions des protéines?
+
+
+11. Habituellement le choix des taxons est une opération délicate et réfléchie. Pour cet exercice, les taxons ont été choisi presque arbitrairement et figurent dans une liste d'indentifiant : studied_taxons , fournie avec ce devoir.
+
+En Utilisant une boucle for et les commandes grep et sed, créer un  fichier fasta (multi-fasta) contenant les séquences du gène ef-tu chez les espèces sélectionnées pour la phylogénie.
+
+Essayer de se conformer au parttern suivant pour les entêtes, car cela facilitera le lecture des fichires d'alignement.
+Les chiffres à la fin de l'entête correspondant a l'identifiant OX.
+
+exemple : 
+
+>Salmonella_typhimurium_99287
+MSKEKFERTKPHVNVGTIGHVDHGKTTLTAAITTVLAKTYGGAARAFDQIDNAPEEKARG
+ITINTSHVEYDTPTRHYAHVDCPGHADYVKNMITGAAQMDGAILVVAATDGPMPQTREHI
+LLGRQVGVPYIIVFLNKCDMVDDEELLELVEMEVRELLSQYDFPGDDTPIVRGSALKALE
+GDAEWEAKIIELAGFLDSYIPEPERAIDKPFLLPIEDVFSISGRGTVVTGRVERGIIKVG
+EEVEIVGIKETQKSTCTGVEMFRKLLDEGRAGENVGVLLRGIKREEIERGQVLAKPGTIK
+PHTKFESEVYILSKDEGGRHTPFFKGYRPQFYFRTTDVTGTIELPEGVEMVMPGDNIKMV
+VTLIHPIAMDDGLRFAIREGGRTVGAGVVAKVLG
+
+Attention de ne pas rediriger la sortie vers ef-tu.fasta, sous peine d'écraser les fichiers précédents. Rediriger les séquences des espèces sélectionnées vers ef-tu_selected.fasta.
+
+
+Effectuer la même opération pour l'autre gène.
+
+
+### Alignement de séquences ###
+
+12. Créer un dossier alignments dans le dossier analyses et un sous-dossier input. Y copier les deux derniers fichiers.
+Essayer d'effectuer cette opération sans changer de répertoire et de créer les deux dossiers d'un seul coup.
+
+
+13. Récupérer l'exécutable muscle (programme d'alignement de séquences) dans le dossier programme en faisant :
+
+wget http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux64.tar.gz
+
+Désarchiver, renommer sous le nom 'muscle', vérifier s'il est exécutable et se débarasser de l'archive
+
+
+14. Retourner dans le dossier /alignements/input et aligner les séquences avec muscle en utilisant une boucle.
+Utiliser le chemin relatif pour appeler le programme. Nommer les fichiers d'output avec l'extension .aln.
+
+Créer un dossier /alignements/output et y déplacer les fichiers d'alignement.
+
+
+15. Examiner les fichiers texte .aln. En quel format sont-ils?
+Vous pouvez transférer ces fichiers sur votre ordinateur personnel et les visualiser de plusieurs manières, notamment celle-ci :
+
+https://www.ebi.ac.uk/Tools/msa/mview/
+
+Quel gène semble le plus conservé?
+
+
+### Selection des portions conservées ###
+
+16. Créer les dossiers analysis/gblocks/input analysis/gblocks/output
+
+Récupérer l'exécutable gblocks (programme de sélection de régions conservées de séquences) dans le dossier programme en faisant :
+
+wget http://molevol.cmima.csic.es/castresana/Gblocks/Gblocks_Linux64_0.91b.tar.Z
+
+Désarchiver et se débarasser de l'archive
+
+Se déplacer dans le dossier Gblocks_0.91b/ l'exécutable se nomme Gblocks
+
+Copier les fichiers d,alignement .aln dans gblocks/input
+
+Faire un lien symbolique du programme Gblocks dnas ce dossier pour l'appeler plus facilement. Sinon, utiliser le chemin relatif.
+
+
+### Obtenir les blocs de régions plus conservées ###
+
+17. Obtenir les blocs de l'alignement de ef-tu en utilisant le petit menu du programme.
+
+Lire la documentation et trouver une ligne de commande simple pour obtenir les blocs de l'alignement du gène dnaA.
+
+Faire une boucle plus générale qui permettrait d'obtenir des blocs si on devait traiter des centaines d'alignements.
+Cela n'est pas grave d'écraser les fichiers précédents.
+
+Déplacer les fichers avec les suffixes .aln-gb et .htm dans ../output
+
+
+### Préparation de la matrice ### 
+
+18. Se déplacer dans scripts/ et récupérer le script Perl concat_fasta avec la commande
+
+git clone https://github.com/santiagosnchez/concat_fasta
+
+Rendre exécutable le script concat_fasta.pl
+
+Lire la documentation et produire une supermatrice en format phyllip
+
+
+### Lancer l'analyse phylogénétique ###
+
+19. Créer et un dossier analyses/phyml, y copier la supermatrice et lancer l'analyse phylogénétique avec phyml
+
+Si vous avez réussi à installer phyml via le programme de gestion de programmes conda, appelez le programme avec phyml.
+
+Utilisez ensuite le menu interactif pour spécifier quelques paramètres.
+
+Il y a une erreur dans le script concat_fasta.pl, saurez-vous trouver la nature de cette erreur?
+
+Pour corrier l'erreur produite par le script concat_fasta.pl, éditer le fichier concat.phylip avec nano et changer la permière ligne
+par :
+
+13	717 au lieu de 13	777
+
+Assurez-vous de faire l'analyse en spécifiant que votre matrice est en acides aminés
+
+
+20. Visualisez l'arbre phylogénétique en chargeant le fichier sur l'excellent site Interactive Tree of Life (https://itol.embl.de/)
+
+
+
+
+
+
